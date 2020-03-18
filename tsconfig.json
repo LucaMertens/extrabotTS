@@ -4,20 +4,21 @@
         "module": "commonjs",
         // "outFile": "logs",
         "outDir": "dist",
-        "sourceMap": true,
         "strict": true,
         // "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
         "allowJs": false,
         "noFallthroughCasesInSwitch": true,
-        "noUnusedLocals": true,
+        "noUnusedLocals": false,
         // "noUnusedParameters": true,
         "noImplicitAny": true,
         "noImplicitThis": true,
-
         "resolveJsonModule": true,
         "pretty": true
     },
     "include": ["**/*"],
-    "exclude": ["node_modules", "**/*.spec.ts"]
+    "exclude": [
+        "node_modules",
+        "**/*.spec.ts"
+    ]
 }
