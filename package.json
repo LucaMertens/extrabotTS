@@ -1,0 +1,27 @@
+{
+  "name": "extrabotts",
+  "version": "1.0.0",
+  "description": "Einmal garbage code mit Extra-Käse bidde",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LucaMertens/extrabotTS.git"
+  },
+  "keywords": [
+    "Käse",
+    "Discord",
+    "TypeScript"
+  ],
+  "author": "Marc Leibold, Luca Mertens",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LucaMertens/extrabotTS/issues"
+  },
+  "homepage": "https://github.com/LucaMertens/extrabotTS#readme",
+  "dependencies": {
+    "discord.js": "^12.0.2"
+  }
+}
