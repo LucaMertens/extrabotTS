@@ -20,4 +20,3 @@ interface ThemeHandlerInterface {
   upload(userId: number, attachmentURL: string): Promise<boolean>;
   delete(userId: number, themeId: number): Promise<boolean>;
 }
-

@@ -1,15 +1,15 @@
-require('dotenv').config()
+require("dotenv").config();
 
 // Start of bot
 import { Client, Collection } from "discord.js";
 import { readdirSync } from "fs";
 import { Command } from "./commands/Command";
-import { ConfigHandler } from "./config/ConfigHandler"
+import { ConfigHandler } from "./config/ConfigHandler";
 
 const client: Client = new Client();
 declare let commands: Collection<string, Command>;
 client.login(process.env.TOKEN);
-let isThemeOn = true;
+const isThemeOn = true;
 
 const loadCommands = async (): Promise<void> => {
   commands = new Collection();
@@ -17,7 +17,7 @@ const loadCommands = async (): Promise<void> => {
     const command: Command = require("./commands/" + file);
     commands.set(file, command);
   });
-}
+};
 
 client.on("ready", async () => {
   const loadCommandsPromise = loadCommands();
@@ -31,14 +31,14 @@ client.on("disconnect", () => console.warn("Disconnected!"));
 client.on("message", async message => {
   if (message.author!.bot || message.content == null) return;
   const prefix = ConfigHandler.get("prefix");
-  //checkForPizza();
+  // checkForPizza();
   if (!message.content.toLowerCase().startsWith(prefix)) return;
   // Split the message at every whitespace character.
-  let args = message.content.substring(prefix.length).split(/ +/g);
-  let command = args.shift()!.toLowerCase();
+  const args = message.content.substring(prefix.length).split(/ +/g);
+  const command = args.shift()!.toLowerCase();
   if (commands.has(command)) {
     commands.get(command)!.execute(message);
   } else {
     message.channel.send("WATI WAT");
   }
-})
+});
