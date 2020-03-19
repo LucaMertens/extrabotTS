@@ -22,9 +22,12 @@
   },
   "homepage": "https://github.com/LucaMertens/extrabotTS#readme",
   "dependencies": {
+    "@types/isomorphic-fetch": "0.0.35",
     "@types/node": "^13.9.1",
     "@types/ws": "^7.2.2",
-    "discord.js": "discordjs/discord.js"
+    "discord.js": "discordjs/discord.js",
+    "dropbox": "^4.0.30",
+    "isomorphic-fetch": "^2.2.1"
   },
   "devDependencies": {
     "typescript": "^3.8.3",
