@@ -1,7 +1,7 @@
 /* eslint-disable require-jsdoc */
-interface ConfigShape {
+type ConfigShape = {
   [key: string]: any;
-}
+};
 
 class ConfigHandler {
   // TODO: Implementierung von FileHandler
@@ -51,7 +51,8 @@ class ConfigHandler {
     return ConfigHandler.config[property];
   }
 
-  static set(): boolean {
-    throw new Error("Method not implemented.");
+  static set(property: string, value: any): boolean {
+    ConfigHandler.config[property] = value;
+    return true;
   }
 }
