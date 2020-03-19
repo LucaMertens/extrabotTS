@@ -1,4 +1,4 @@
-interface ThemeAdapter {
+interface ThemeHandlerInterface {
   /**
    * Returns the names of all themes for a user.
    * @param userId Whose themes should be listed.
@@ -13,3 +13,4 @@ interface ThemeAdapter {
   upload(userId: number, attachmentURL: string): boolean;
   delete(userId: number, themeId: number): boolean;
 }
+

@@ -1,0 +1,3 @@
+class DropboxHandler extends ThemeHandlerInterface {
+    
+}
