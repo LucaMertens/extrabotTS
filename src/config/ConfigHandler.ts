@@ -3,7 +3,7 @@ type ConfigShape = {
   [key: string]: any;
 };
 
-class ConfigHandler {
+export class ConfigHandler {
   // TODO: Implementierung von FileHandler
   private static config: ConfigShape = {
     prefix: "extra",

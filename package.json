@@ -4,6 +4,7 @@
   "description": "Einmal garbage code mit Extra-Käse bidde",
   "main": "app.js",
   "scripts": {
+    "start": "node dist/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -26,6 +27,7 @@
     "@types/node": "^13.9.1",
     "@types/ws": "^7.2.2",
     "discord.js": "discordjs/discord.js",
+    "dotenv": "^8.2.0",
     "dropbox": "^4.0.30",
     "isomorphic-fetch": "^2.2.1"
   },

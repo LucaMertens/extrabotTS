@@ -1,7 +1,10 @@
+require('dotenv').config()
+
 // Start of bot
 import { Client, Collection } from "discord.js";
 import { readdirSync } from "fs";
 import { Command } from "./commands/Command";
+import { ConfigHandler } from "./config/ConfigHandler"
 
 const client: Client = new Client();
 declare let commands: Collection<string, Command>;
