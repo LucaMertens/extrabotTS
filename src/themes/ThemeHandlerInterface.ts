@@ -1,6 +1,11 @@
-import { VoiceBroadcast } from "discord.js";
+import { VoiceBroadcast, MessageAttachment } from "discord.js";
 
 export type Playable = ReadableStream | VoiceBroadcast | string;
+type themeResult = {
+  success: boolean;
+  errorMessage?: string;
+  errorObject?: Error;
+};
 
 export interface ThemeHandlerInterface {
   /**
@@ -24,10 +29,25 @@ export interface ThemeHandlerInterface {
   /**
    * Uploads a theme file for the specified user.
    * @param userId The id of the user who the theme belongs to.
-   * @param attachmentURL The URL of the attached theme file.
-   * @returns Resolves to true, if the upload was succesfull.
+   * @param themeName The name of the string, including its filetype.
+   * @param themeBody The data (body) of the file to upload.
+   * @returns Resolves to true if the upload was succesfull.
    */
-  upload(userId: number, attachmentURL: string): Promise<boolean>;
+  upload(
+    userId: number,
+    themeName: string,
+    themeBody: ReadableStream | Object
+  ): Promise<boolean>;
+  /**
+   * Saves a file located at the given Url as a theme.
+   * @param userId The id of the user who the theme belongs to.
+   * @param attachment The theme as a Discord-Attachment.
+   * @returns Resolves to true if the upload was succesfull.
+   */
+  uploadFromAttachment(
+    userId: number,
+    attachment: MessageAttachment
+  ): Promise<boolean>;
   /**
    * Deletes a theme file for the specified user.
    * @param userId The id of the user who the theme belongs to.
