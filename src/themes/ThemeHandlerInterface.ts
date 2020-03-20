@@ -1,19 +1,26 @@
 import { VoiceBroadcast } from "discord.js";
 
-type Playable = ReadableStream | VoiceBroadcast | "string";
+export type Playable = ReadableStream | VoiceBroadcast | string;
 
-interface ThemeHandlerInterface {
+export interface ThemeHandlerInterface {
   /**
    * Returns the names of all themes for a user.
    * @param userId The id of the user whose themes should be listed.
    */
   listThemeNames(userId: number): Promise<string[]>;
   /**
-   * Returns the specified theme as a ReadableStream.
+   * Returns the specified theme.
    * @param userId The id of the user who the theme belongs to.
-   * @param themeId The id of the theme that's going to be fetched.
+   * @param themeName The name of the theme that's going to be fetched.
+   * @returns An object that can be played by DiscordJs' VoiceConnection.play().
    */
-  getTheme(userId: number, themeId: number): Promise<Playable>;
+  getTheme(userId: number, themeName: string): Promise<Playable>;
+  /**
+   * Returns a random theme choosen from all of the users themes.
+   * @param userId The id of the user who the theme belongs to.
+   * @returns An object that can be played by DiscordJs' VoiceConnection.play().
+   */
+  getRandomTheme(userId: number): Promise<Playable>;
   /**
    * Uploads a theme file for the specified user.
    * @param userId The id of the user who the theme belongs to.
@@ -24,7 +31,7 @@ interface ThemeHandlerInterface {
   /**
    * Deletes a theme file for the specified user.
    * @param userId The id of the user who the theme belongs to.
-   * @param themeId The id of the theme that's going to be fetched.
+   * @param themeName The name of the theme that's going to be fetched.
    */
-  delete(userId: number, themeId: number): Promise<boolean>;
+  delete(userId: number, themeName: string): Promise<boolean>;
 }
