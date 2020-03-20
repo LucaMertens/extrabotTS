@@ -1,4 +1,6 @@
-// import {User} from "discord.js";
+import { VoiceBroadcast } from "discord.js";
+
+type Playable = ReadableStream | VoiceBroadcast | "string";
 
 interface ThemeHandlerInterface {
   /**
@@ -11,12 +13,18 @@ interface ThemeHandlerInterface {
    * @param userId The id of the user who the theme belongs to.
    * @param themeId The id of the theme that's going to be fetched.
    */
-  getTheme(userId: number, themeId: number): Promise<ReadableStream>;
+  getTheme(userId: number, themeId: number): Promise<Playable>;
   /**
    * Uploads a theme file for the specified user.
    * @param userId The id of the user who the theme belongs to.
    * @param attachmentURL The URL of the attached theme file.
+   * @returns Resolves to true, if the upload was succesfull.
    */
   upload(userId: number, attachmentURL: string): Promise<boolean>;
+  /**
+   * Deletes a theme file for the specified user.
+   * @param userId The id of the user who the theme belongs to.
+   * @param themeId The id of the theme that's going to be fetched.
+   */
   delete(userId: number, themeId: number): Promise<boolean>;
 }
