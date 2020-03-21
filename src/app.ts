@@ -7,7 +7,7 @@ import { Command } from "./commands/Command";
 import { Event } from "./events/Event";
 import { ConfigHandler } from "./config/ConfigHandler";
 
-const client: Client = new Client();
+export const client: Client = new Client();
 let commands: Collection<string, Command>;
 let events: Collection<string, Event>;
 client.login(process.env.TOKEN);
@@ -31,12 +31,12 @@ const loadEvents = async (): Promise<void> => {
 loadCommands();
 loadEvents();
 
-// client.on("ready", async () => {
-//   const loadCommandsPromise = loadCommands();
-//   console.log("Extrabot is ready for some dank memes.");
-//   client.user!.setActivity(ConfigHandler.get("defaultActivity"));
-//   await loadCommandsPromise;
-// });
+client.on("ready", async () => {
+  const loadCommandsPromise = loadCommands();
+  console.log("Extrabot is ready for some dank memes.");
+  client.user!.setActivity(ConfigHandler.get("defaultActivity"));
+  await loadCommandsPromise;
+});
 
 // client.on("disconnect", () => console.warn("Disconnected!"));
 
