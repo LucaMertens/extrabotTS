@@ -32,7 +32,10 @@
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": false,
     "resolveJsonModule": true,
-    "pretty": true
+    "pretty": true,
+
+    /* This exists because Discord.Js causes an error during compilation. Try to remove this in the future. */
+    "skipLibCheck": true
   },
   "exclude": ["node_modules", "**/*.spec.ts"],
   "include": ["src"]
