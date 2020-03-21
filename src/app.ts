@@ -7,13 +7,12 @@ import { Command } from "./commands/Command";
 import { ConfigHandler } from "./config/ConfigHandler";
 
 const client: Client = new Client();
-declare let commands: Collection<string, Command>;
+let commands: Collection<string, Command>;
 client.login(process.env.TOKEN);
-const isThemeOn = true;
 
 const loadCommands = async (): Promise<void> => {
   commands = new Collection();
-  readdirSync("./commands").forEach(file => {
+  readdirSync("./src/commands").forEach(file => {
     const command: Command = require("./commands/" + file);
     commands.set(file, command);
   });

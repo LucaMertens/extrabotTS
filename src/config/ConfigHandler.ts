@@ -7,7 +7,7 @@ export class ConfigHandler {
   // TODO: Implementierung von FileHandler
   private static config: ConfigShape = {
     prefix: "extra",
-    defaultActivity: ["the sanic theme", { type: "LISTENING" }],
+    defaultActivity: { name: "the sanic theme", type: "LISTENING" },
     admins: [
       { name: "Extramurloc", ID: "181805681349754880" },
       { name: "XDawanX", ID: "178585123707420674" },
