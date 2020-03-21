@@ -1,8 +1,29 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    /* Configuration for Node ^8.0.0 */
+    /* "lib": ["es2017"],
     "module": "commonjs",
-    // "outFile": "logs",
+    "target": "es2017", */
+
+    /* Configuration for Node ^10.0.0 */
+    /* "lib": ["es2018"],
+    "module": "commonjs",
+    "target": "es2018", */
+
+    /* Configuration for Node ^12.0.0 */
+    "lib": [
+      "DOM",
+
+      "es2019",
+      "es2020.bigint",
+      "es2020.string",
+      "es2020.symbol.wellknown"
+    ],
+    "module": "commonjs",
+    "target": "es2019",
+
+    "sourceMap": true,
+    "rootDir": "src",
     "outDir": "dist",
     "strict": true,
     // "esModuleInterop": true,
@@ -10,12 +31,8 @@
     "allowJs": false,
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": false,
-    // "noUnusedParameters": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
     "resolveJsonModule": true,
     "pretty": true
   },
-  "include": ["**/*"],
   "exclude": ["node_modules", "**/*.spec.ts"]
 }
