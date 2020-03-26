@@ -14,7 +14,7 @@ const theme: Command = {
       case "off":
         isThemeOn ? toggleTheme() : null;
         break;
-      case "upload":
+      case "upload": // Error handling?
         if (message.attachments.size == 0) {
           message.channel.send("M8, you forgot the attachment");
           break;
@@ -59,8 +59,16 @@ const theme: Command = {
         });
         break;
       case "delete":
+        // TODO: extratheme delete
         break;
       case "list":
+        const dropboxHandler = new DropboxHandler();
+        message.mentions.users.first()
+          ? dropboxHandler.listThemeNames(
+              parseInt(message.mentions.users.first()!.id)
+            )
+          : dropboxHandler.listThemeNames(parseInt(message.author!.id));
+        // readability ruined by Prettier?
         break;
     }
   },
