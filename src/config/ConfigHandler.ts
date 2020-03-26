@@ -55,4 +55,8 @@ export class ConfigHandler {
     ConfigHandler.config[property] = value;
     return true;
   }
+
+  static checkAdmin(userID: string): boolean {
+    return ConfigHandler.get("admins").has({ id: userID });
+  }
 }

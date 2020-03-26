@@ -1,4 +1,4 @@
-import { client } from "../app";
+import { client, commands } from "../app";
 import { ConfigHandler } from "../config/ConfigHandler";
 
 client.on("message", async message => {
@@ -11,7 +11,7 @@ client.on("message", async message => {
 
   const command = args.shift()!.toLowerCase();
   if (commands.has(command)) {
-    commands.get(command)!.execute(message);
+    commands.get(command)!.execute(client, message, message.content.split(" "));
   } else {
     message.channel.send("WATI WAT");
   }

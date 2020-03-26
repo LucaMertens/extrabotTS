@@ -8,8 +8,8 @@ import { Event } from "./events/Event";
 import { ConfigHandler } from "./config/ConfigHandler";
 
 export const client: Client = new Client();
-let commands: Collection<string, Command>;
-let events: Collection<string, Event>;
+export let commands: Collection<string, Command>;
+export let events: Collection<string, Event>;
 client.login(process.env.TOKEN);
 
 const loadCommands = async (): Promise<void> => {
