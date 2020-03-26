@@ -4,7 +4,7 @@ require("dotenv").config();
 import { Client, Collection } from "discord.js";
 import { readdirSync } from "fs";
 import { Command } from "./commands/Command";
-import { Event } from "./events/Event";
+import { EventName } from "./events/Event";
 import { ConfigHandler } from "./config/ConfigHandler";
 
 export const client: Client = new Client();
@@ -21,10 +21,10 @@ const loadCommands = async (): Promise<void> => {
 };
 
 const loadEvents = async (): Promise<void> => {
-  event = new Collection();
   readdirSync("./src/events").forEach(file => {
-    const event: Event = require("./events/" + file);
-    client.on(file, event);
+    const event = require("./events/" + file);
+    const eventName: EventName = file.split(".")[0] as EventName;
+    client.on(eventName, event);
   });
 };
 
