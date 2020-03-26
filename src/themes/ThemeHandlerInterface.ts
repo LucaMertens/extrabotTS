@@ -21,7 +21,7 @@ export interface ThemeHandlerInterface {
    */
   getTheme(userId: number, themeName: string): Promise<Playable>;
   /**
-   * Returns a random theme choosen from all of the users themes.
+   * Returns a random theme chosen from all of the users themes.
    * @param userId The id of the user who the theme belongs to.
    * @returns An object that can be played by DiscordJs' VoiceConnection.play().
    */
@@ -31,23 +31,16 @@ export interface ThemeHandlerInterface {
    * @param userId The id of the user who the theme belongs to.
    * @param themeName The name of the string, including its filetype.
    * @param themeBody The data (body) of the file to upload.
-   * @returns Resolves to true if the upload was succesfull.
+   * @returns Resolves to true if the upload was successful.
    */
-  upload(
-    userId: number,
-    themeName: string,
-    themeBody: ReadableStream | Object
-  ): Promise<boolean>;
+  upload(userId: number, themeName: string, themeBody: ReadableStream | Object): Promise<boolean>;
   /**
    * Saves a file located at the given Url as a theme.
    * @param userId The id of the user who the theme belongs to.
    * @param attachment The theme as a Discord-Attachment.
-   * @returns Resolves to true if the upload was succesfull.
+   * @returns Resolves to true if the upload was successful.
    */
-  uploadFromAttachment(
-    userId: number,
-    attachment: MessageAttachment
-  ): Promise<boolean>;
+  uploadFromAttachment(userId: number, attachment: MessageAttachment): Promise<boolean>;
   /**
    * Deletes a theme file for the specified user.
    * @param userId The id of the user who the theme belongs to.

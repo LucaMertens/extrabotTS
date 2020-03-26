@@ -9,7 +9,7 @@ import { MessageAttachment } from "discord.js";
  */
 export class DropboxHandler implements ThemeHandlerInterface {
   private declare dropbox: Dropbox;
-  /** Initializes the connection to Drobox via their API. */
+  /** Initializes the connection to Dropbox via their API. */
   constructor() {
     this.dropbox = new Dropbox({
       fetch: isomorphicFetch,
@@ -21,17 +21,16 @@ export class DropboxHandler implements ThemeHandlerInterface {
    * Themes are grouped by userId, so all themes for a user with the Id 123 will be located in the folder "/themes/123".
    * @param userId The Discord-UserId of the user who the theme belongs to.
    * @param themeName The name of the theme, including its file-ending. When omitted, the function will simply return a user-directory.
-   * @return A path to be used with the Dropbbox-API.
+   * @return A path to be used with the Dropbox-API.
    */
 
-  private static getPath = (userId: number, themeName = "") =>
-    `/themes/${userId}/${themeName}`;
+  private static getPath = (userId: number, themeName = "") => `/themes/${userId}/${themeName}`;
 
   /* eslint-disable-next-line require-jsdoc */
   async listThemeNames(userId: number): Promise<string[]> {
     const path = DropboxHandler.getPath(userId);
     const { entries } = await this.dropbox.filesListFolder({ path });
-    // TODO: Handling a non-existant user.
+    // TODO: Handling a non-existent user.
 
     // eslint-disable-next-line prefer-const
     let names: string[] = [];
@@ -50,7 +49,6 @@ export class DropboxHandler implements ThemeHandlerInterface {
     // This will throw an error if the file doesn't exist.
     // TODO: Define Errors in interface.
     const { link } = await this.dropbox.filesGetTemporaryLink({ path });
-
     return link;
   }
 
@@ -60,7 +58,6 @@ export class DropboxHandler implements ThemeHandlerInterface {
     if (names.length <= 0) {
       throw new Error("No theme found for the user.");
     }
-
     const themeName = pickRandom(names);
     const path = DropboxHandler.getPath(userId, themeName);
 
@@ -75,31 +72,20 @@ export class DropboxHandler implements ThemeHandlerInterface {
     themeBody: Object | ReadableStream<any>
   ): Promise<boolean> {
     const path = DropboxHandler.getPath(userId, themeName);
-    try {
-      await this.dropbox.filesUpload({
-        path,
-        contents: themeBody,
-        mode: { ".tag": "overwrite" }
-      });
-      return true;
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
+    await this.dropbox.filesUpload({
+      path,
+      contents: themeBody,
+      mode: { ".tag": "overwrite" }
+    });
+    return true;
   }
 
   /* eslint-disable-next-line require-jsdoc */
-  async uploadFromAttachment(
-    userId: number,
-    attachment: MessageAttachment
-  ): Promise<boolean> {
+  async uploadFromAttachment(userId: number, attachment: MessageAttachment): Promise<boolean> {
     const path = DropboxHandler.getPath(userId, attachment.name);
-    try {
-      await this.dropbox.filesSaveUrl({ path, url: attachment.url });
-      return true;
-    } catch {
-      return false;
-    }
+
+    await this.dropbox.filesSaveUrl({ path, url: attachment.url });
+    return true;
   }
 
   /* eslint-disable-next-line require-jsdoc */

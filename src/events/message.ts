@@ -11,7 +11,7 @@ client.on("message", async message => {
 
   const command = args.shift()!.toLowerCase();
   if (commands.has(command)) {
-    commands.get(command)!.execute(client, message, message.content.split(" "));
+    commands.get(command)!.execute(client, message, args);
   } else {
     message.channel.send("WATI WAT");
   }

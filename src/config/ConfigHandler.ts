@@ -24,8 +24,7 @@ export class ConfigHandler {
           },
           author: {
             name: "Peter Parker",
-            icon_url:
-              "http://pm1.narvii.com/6517/5e4bacc110f5d63bd9254d1d0b47304ddbde1569_00.jpg"
+            icon_url: "http://pm1.narvii.com/6517/5e4bacc110f5d63bd9254d1d0b47304ddbde1569_00.jpg"
           },
           color: 15964934
         }

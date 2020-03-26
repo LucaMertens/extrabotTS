@@ -14,7 +14,7 @@ const theme: Command = {
       case "off":
         isThemeOn ? toggleTheme() : null;
         break;
-      case "upload": // Error handling?
+      case "upload": // TODO: Error handling!
         if (message.attachments.size == 0) {
           message.channel.send("M8, you forgot the attachment");
           break;
@@ -26,9 +26,7 @@ const theme: Command = {
           ?.toLowerCase();
         console.log(attachment);
         if (!ConfigHandler.get("supportedFiletypes").includes(filetype)) {
-          message.channel.send(
-            `Sorry, this filetype (${filetype}) is currently not supported`
-          );
+          message.channel.send(`Sorry, this filetype (${filetype}) is currently not supported`);
           break;
         }
         let recipient: User;
@@ -48,11 +46,7 @@ const theme: Command = {
           recipient = message.author!;
         }
         fetch(attachment.url).then(data => {
-          new DropboxHandler().upload(
-            parseInt(recipient.id),
-            attachment.name!,
-            data.body!
-          );
+          new DropboxHandler().upload(parseInt(recipient.id), attachment.name!, data.body!);
           message.channel.send(
             `The theme \`\`\`${attachment.name}\`\`\` has been uploaded for the user ${recipient}`
           );
@@ -63,12 +57,13 @@ const theme: Command = {
         break;
       case "list":
         const dropboxHandler = new DropboxHandler();
-        message.mentions.users.first()
-          ? dropboxHandler.listThemeNames(
-              parseInt(message.mentions.users.first()!.id)
-            )
-          : dropboxHandler.listThemeNames(parseInt(message.author!.id));
-        // readability ruined by Prettier?
+        try {
+          message.mentions.users.first()
+            ? dropboxHandler.listThemeNames(parseInt(message.mentions.users.first()!.id))
+            : dropboxHandler.listThemeNames(parseInt(message.author!.id));
+        } catch (error) {
+          message.channel.send(error.name);
+        }
         break;
     }
   },
