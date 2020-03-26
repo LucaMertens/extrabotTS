@@ -4,12 +4,12 @@ require("dotenv").config();
 import { Client, Collection } from "discord.js";
 import { readdirSync } from "fs";
 import { Command } from "./commands/Command";
-import { Event } from "./events/Event";
+import { EventName } from "./events/Event";
 import { ConfigHandler } from "./config/ConfigHandler";
 
-const client: Client = new Client();
-let commands: Collection<string, Command>;
-let events: Collection<string, Event>;
+export const client: Client = new Client();
+export let commands: Collection<string, Command>;
+export let events: Collection<string, Event>;
 client.login(process.env.TOKEN);
 
 const loadCommands = async (): Promise<void> => {
@@ -21,22 +21,22 @@ const loadCommands = async (): Promise<void> => {
 };
 
 const loadEvents = async (): Promise<void> => {
-  event = new Collection();
   readdirSync("./src/events").forEach(file => {
-    const event: Event = require("./events/" + file);
-    client.on(file, event);
+    const event = require("./events/" + file);
+    const eventName: EventName = file.split(".")[0] as EventName;
+    client.on(eventName, event);
   });
 };
 
 loadCommands();
 loadEvents();
 
-// client.on("ready", async () => {
-//   const loadCommandsPromise = loadCommands();
-//   console.log("Extrabot is ready for some dank memes.");
-//   client.user!.setActivity(ConfigHandler.get("defaultActivity"));
-//   await loadCommandsPromise;
-// });
+client.on("ready", async () => {
+  const loadCommandsPromise = loadCommands();
+  console.log("Extrabot is ready for some dank memes.");
+  client.user!.setActivity(ConfigHandler.get("defaultActivity"));
+  await loadCommandsPromise;
+});
 
 // client.on("disconnect", () => console.warn("Disconnected!"));
 
