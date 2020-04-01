@@ -27,20 +27,12 @@ export interface ThemeHandlerInterface {
    */
   getRandomTheme(userId: number): Promise<Playable>;
   /**
-   * Uploads a theme file for the specified user.
-   * @param userId The id of the user who the theme belongs to.
-   * @param themeName The name of the string, including its filetype.
-   * @param themeBody The data (body) of the file to upload.
-   * @returns Resolves to true if the upload was successful.
-   */
-  upload(userId: number, themeName: string, themeBody: ReadableStream | Object): Promise<boolean>;
-  /**
    * Saves a file located at the given Url as a theme.
    * @param userId The id of the user who the theme belongs to.
    * @param attachment The theme as a Discord-Attachment.
    * @returns Resolves to true if the upload was successful.
    */
-  uploadFromAttachment(userId: number, attachment: MessageAttachment): Promise<boolean>;
+  upload(userId: number, attachment: MessageAttachment): Promise<boolean>;
   /**
    * Deletes a theme file for the specified user.
    * @param userId The id of the user who the theme belongs to.

@@ -65,23 +65,23 @@ export class DropboxHandler implements ThemeHandlerInterface {
     return link;
   }
 
-  /* eslint-disable-next-line require-jsdoc */
-  async upload(
-    userId: number,
-    themeName: string,
-    themeBody: Object | ReadableStream<any>
-  ): Promise<boolean> {
-    const path = DropboxHandler.getPath(userId, themeName);
-    await this.dropbox.filesUpload({
-      path,
-      contents: themeBody,
-      mode: { ".tag": "overwrite" }
-    });
-    return true;
-  }
+  // /* eslint-disable-next-line require-jsdoc */
+  // async __uploadOld(
+  //   userId: number,
+  //   themeName: string,
+  //   themeBody: Object | ReadableStream<any>
+  // ): Promise<boolean> {
+  //   const path = DropboxHandler.getPath(userId, themeName);
+  //   await this.dropbox.filesUpload({
+  //     path,
+  //     contents: themeBody,
+  //     mode: { ".tag": "overwrite" }
+  //   });
+  //   return true;
+  // }
 
   /* eslint-disable-next-line require-jsdoc */
-  async uploadFromAttachment(userId: number, attachment: MessageAttachment): Promise<boolean> {
+  async upload(userId: number, attachment: MessageAttachment): Promise<boolean> {
     const path = DropboxHandler.getPath(userId, attachment.name);
 
     await this.dropbox.filesSaveUrl({ path, url: attachment.url });
