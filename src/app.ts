@@ -3,8 +3,7 @@ require("dotenv").config();
 // Start of bot
 import { Client, Collection } from "discord.js";
 import { readdirSync } from "fs";
-import { Command } from "./commands/Command";
-import { EventName } from "./events/Event";
+import { Command, isCommand } from "./types/Command";
 import { ConfigHandler } from "./config/ConfigHandler";
 
 export const client: Client = new Client();
@@ -14,44 +13,27 @@ client.login(process.env.TOKEN);
 
 const loadCommands = async (): Promise<void> => {
   commands = new Collection();
-  readdirSync("./src/commands").forEach(file => {
-    const command: Command = require("./commands/" + file);
-    commands.set(file, command);
+  readdirSync(`${__dirname}/commands`).forEach(async fileName => {
+    // Ignore non-js files.
+    if (!fileName.endsWith(".js")) return;
+    const command = await import("./commands/" + fileName);
+    if (!isCommand(command)) {
+      console.log(`Skipping file ${fileName}, because it's not a command.`);
+      return;
+    }
+    // Remove the ".js" suffix.
+    const commandName = fileName.slice(0, -3);
+    commands.set(commandName, command);
   });
 };
 
 const loadEvents = async (): Promise<void> => {
-  readdirSync("./src/events").forEach(file => {
-    const event = require("./events/" + file);
-    const eventName: EventName = file.split(".")[0] as EventName;
-    client.on(eventName, event);
+  readdirSync(`${__dirname}/events`).forEach(fileName => {
+    if (!fileName.endsWith(".js")) return;
+    // This makes sure that every "client.on" - eventhandler is included.
+    import("./events/" + fileName);
   });
 };
 
 loadCommands();
 loadEvents();
-
-client.on("ready", async () => {
-  const loadCommandsPromise = loadCommands();
-  console.log("Extrabot is ready for some dank memes.");
-  client.user!.setActivity(ConfigHandler.get("defaultActivity"));
-  await loadCommandsPromise;
-});
-
-// client.on("disconnect", () => console.warn("Disconnected!"));
-
-// client.on("message", async message => {
-//   if (message.author!.bot || message.content == null) return;
-//   const prefix = ConfigHandler.get("prefix");
-//   // checkForPizza();
-//   if (!message.content.toLowerCase().startsWith(prefix)) return;
-//   // Split the message at every whitespace character.
-//   const args = message.content.substring(prefix.length).split(/ +/g);
-
-//   const command = args.shift()!.toLowerCase();
-//   if (commands.has(command)) {
-//     commands.get(command)!.execute(message);
-//   } else {
-//     message.channel.send("WATI WAT");
-//   }
-// });

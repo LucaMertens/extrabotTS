@@ -1,7 +1,9 @@
-/* import { client } from "../app";
+import { client } from "../app";
+import { ConfigHandler } from "../config/ConfigHandler";
+
 client.on("ready", async () => {
-  const loadCommandsPromise = loadCommands();
+  // const loadCommandsPromise = loadCommands();
   console.log("Extrabot is ready for some dank memes.");
   client.user!.setActivity(ConfigHandler.get("defaultActivity"));
-  await loadCommandsPromise;
-}); */
+  // await loadCommandsPromise;
+});

@@ -10,8 +10,10 @@ client.on("message", async message => {
   const args = message.content.substring(prefix.length).split(/ +/g);
 
   const command = args.shift()!.toLowerCase();
+  console.log(command);
+  console.log(commands);
   if (commands.has(command)) {
-    commands.get(command)!.execute(client, message, args);
+    commands.get(command)!.execute(message, args);
   } else {
     message.channel.send("WATI WAT");
   }
