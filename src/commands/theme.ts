@@ -1,12 +1,11 @@
-import { Command } from "./Command";
+import { Command } from "../types/Command";
 import { isThemeOn, toggleTheme } from "../events/voiceStateUpdate";
 import { ConfigHandler } from "../config/ConfigHandler";
 import { User } from "discord.js";
-import { client } from "../app";
 import { DropboxHandler } from "../themes/DropboxHandler";
 
 const theme: Command = {
-  execute: async (client, message, args) => {
+  execute: async (message, args) => {
     switch (args[0]) {
       case "on":
         isThemeOn ? null : toggleTheme();
@@ -17,17 +16,17 @@ const theme: Command = {
       case "upload": // TODO: Error handling!
         if (message.attachments.size == 0) {
           message.channel.send("M8, you forgot the attachment");
-          break;
+          return;
         }
         const attachment = message.attachments.first()!;
         const filetype = attachment.url
           .split(".")
           .pop()
           ?.toLowerCase();
-        console.log(attachment);
+
         if (!ConfigHandler.get("supportedFiletypes").includes(filetype)) {
           message.channel.send(`Sorry, this filetype (${filetype}) is currently not supported`);
-          break;
+          return;
         }
         let recipient: User;
         if (message.mentions.users.first()) {
@@ -38,19 +37,19 @@ const theme: Command = {
             recipient = message.mentions.users.first()!;
           } else {
             message.channel.send(
-              "You need to be an admin in order to upload themes for other people."
+              "You need to be an admin in order to upload themes for other sad people that are sad."
             );
             return;
           }
         } else {
           recipient = message.author!;
         }
-        fetch(attachment.url).then(data => {
-          new DropboxHandler().upload(parseInt(recipient.id), attachment.name!, data.body!);
-          message.channel.send(
-            `The theme \`\`\`${attachment.name}\`\`\` has been uploaded for the user ${recipient}`
-          );
-        });
+
+        // TODO: Shared DropboxHandler-Object
+        new DropboxHandler().upload(parseInt(recipient.id), attachment);
+        message.channel.send(
+          `The theme \`\`\`${attachment.name}\`\`\` has been uploaded for the user ${recipient}`
+        );
         break;
       case "delete":
         // TODO: extratheme delete
@@ -73,7 +72,7 @@ const theme: Command = {
     usage:
       "extratheme on | off | upload {*.mp3|*.wav|*.yeet}| delete [userID] {themeID|filename} | list [userID]"
   },
-  config: { enabled: true, guildOnly: false }
+  config: { enabled: true, guildOnly: true }
 };
 
-exports.default = theme;
+module.exports = theme;
