@@ -2,7 +2,7 @@ import { Dropbox } from "dropbox";
 import * as isomorphicFetch from "isomorphic-fetch";
 import { ThemeHandlerInterface, Playable } from "./ThemeHandlerInterface";
 import { pickRandom } from "../utils";
-import { MessageAttachment } from "discord.js";
+import { MessageAttachment, Snowflake } from "discord.js";
 
 /**
  * Provides access to themes stored on a Dropbox-Account.
@@ -24,10 +24,10 @@ export class DropboxHandler implements ThemeHandlerInterface {
    * @return A path to be used with the Dropbox-API.
    */
 
-  private static getPath = (userId: number, themeName = "") => `/themes/${userId}/${themeName}`;
+  private static getPath = (userId: Snowflake, themeName = "") => `/themes/${userId}/${themeName}`;
 
   /* eslint-disable-next-line require-jsdoc */
-  async listThemeNames(userId: number): Promise<string[]> {
+  async listThemeNames(userId: Snowflake): Promise<string[]> {
     const path = DropboxHandler.getPath(userId);
     const { entries } = await this.dropbox.filesListFolder({ path });
     // TODO: Handling a non-existent user.
@@ -44,7 +44,7 @@ export class DropboxHandler implements ThemeHandlerInterface {
   }
 
   /* eslint-disable-next-line require-jsdoc */
-  async getTheme(userId: number, themeName: string): Promise<Playable> {
+  async getTheme(userId: Snowflake, themeName: string): Promise<Playable> {
     const path = DropboxHandler.getPath(userId, themeName);
     // This will throw an error if the file doesn't exist.
     // TODO: Define Errors in interface.
@@ -53,7 +53,7 @@ export class DropboxHandler implements ThemeHandlerInterface {
   }
 
   /* eslint-disable-next-line require-jsdoc */
-  async getRandomTheme(userId: number): Promise<Playable> {
+  async getRandomTheme(userId: Snowflake): Promise<Playable> {
     const names = await this.listThemeNames(userId);
     if (names.length <= 0) {
       throw new Error("No theme found for the user.");
@@ -67,7 +67,7 @@ export class DropboxHandler implements ThemeHandlerInterface {
 
   // /* eslint-disable-next-line require-jsdoc */
   // async __uploadOld(
-  //   userId: number,
+  //   userId: Snowflake,
   //   themeName: string,
   //   themeBody: Object | ReadableStream<any>
   // ): Promise<boolean> {
@@ -81,7 +81,7 @@ export class DropboxHandler implements ThemeHandlerInterface {
   // }
 
   /* eslint-disable-next-line require-jsdoc */
-  async upload(userId: number, attachment: MessageAttachment): Promise<boolean> {
+  async upload(userId: Snowflake, attachment: MessageAttachment): Promise<boolean> {
     const path = DropboxHandler.getPath(userId, attachment.name);
 
     await this.dropbox.filesSaveUrl({ path, url: attachment.url });
@@ -89,7 +89,7 @@ export class DropboxHandler implements ThemeHandlerInterface {
   }
 
   /* eslint-disable-next-line require-jsdoc */
-  async delete(userId: number, themeName: string): Promise<boolean> {
+  async delete(userId: Snowflake, themeName: string): Promise<boolean> {
     const path = DropboxHandler.getPath(userId, themeName);
     try {
       await this.dropbox.filesDeleteV2({ path });
