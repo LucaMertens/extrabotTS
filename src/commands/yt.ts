@@ -11,7 +11,6 @@ const yt: Command = {
       return;
     }
     const begin = args[1];
-    console.log(begin);
     try {
       const stream = ytdl(link, { filter: "audioonly", begin });
       console.log(stream);
@@ -23,7 +22,7 @@ const yt: Command = {
   },
   help: {
     name: "yt",
-    description: "Downloads the audio-part of a youtube-video",
+    description: "Downloads the audio-part of a Youtube-video",
     usage: "extrayt <Youtube-Link> [begin]"
   },
   config: { enabled: true, guildOnly: false }
