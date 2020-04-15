@@ -3,29 +3,14 @@ require("dotenv").config();
 // Start of bot
 import { Client, Collection } from "discord.js";
 import { readdirSync } from "fs";
-import { Command, isCommand } from "./types/Command";
-import { ConfigHandler } from "./config/ConfigHandler";
+import { getCommands } from "./getCommands";
+import { DropboxHandler } from "./themes/DropboxHandler";
+import { ThemeHandlerInterface } from "./themes/ThemeHandlerInterface";
+import { Command } from "./types/Command";
 
-export const client: Client = new Client();
+export const themeHandler: ThemeHandlerInterface = new DropboxHandler();
 export let commands: Collection<string, Command>;
-export let events: Collection<string, Event>;
-client.login(process.env.TOKEN);
-
-const loadCommands = async (): Promise<void> => {
-  commands = new Collection();
-  readdirSync(`${__dirname}/commands`).forEach(async fileName => {
-    // Ignore non-js files.
-    if (!fileName.endsWith(".js")) return;
-    const command = await import("./commands/" + fileName);
-    if (!isCommand(command)) {
-      console.log(`Skipping file ${fileName}, because it's not a command.`);
-      return;
-    }
-    // Remove the ".js" suffix.
-    const commandName = fileName.slice(0, -3);
-    commands.set(commandName, command);
-  });
-};
+export const client: Client = new Client();
 
 const loadEvents = async (): Promise<void> => {
   readdirSync(`${__dirname}/events`).forEach(fileName => {
@@ -35,5 +20,10 @@ const loadEvents = async (): Promise<void> => {
   });
 };
 
-loadCommands();
-loadEvents();
+const init = async () => {
+  commands = await getCommands();
+  await loadEvents();
+  await client.login(process.env.TOKEN);
+};
+
+init();
