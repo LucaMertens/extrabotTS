@@ -63,7 +63,7 @@ export class ConfigHandler {
     return ConfigHandler.config[property];
   }
 
-  static set(property: keyof ConfigShape, value: any): boolean {
+  static set<K extends keyof ConfigShape>(property: K, value: ConfigShape[K]): boolean {
     ConfigHandler.config[property] = value;
     return true;
   }
