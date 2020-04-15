@@ -1,6 +1,7 @@
 import { VoiceBroadcast, MessageAttachment, Snowflake } from "discord.js";
+import { Readable } from "stream";
 
-export type Playable = ReadableStream | VoiceBroadcast | string;
+export type Playable = Readable | VoiceBroadcast | string;
 type themeResult = {
   success: boolean;
   errorMessage?: string;
