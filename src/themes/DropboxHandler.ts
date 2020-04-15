@@ -8,7 +8,7 @@ import { MessageAttachment, Snowflake } from "discord.js";
  * Provides access to themes stored on a Dropbox-Account.
  */
 export class DropboxHandler implements ThemeHandlerInterface {
-  private declare dropbox: Dropbox;
+  private dropbox: Dropbox;
   /** Initializes the connection to Dropbox via their API. */
   constructor() {
     this.dropbox = new Dropbox({

@@ -1,5 +1,4 @@
 import { Command } from "../types/Command";
-import { commands } from "../app";
 import ytdl = require("ytdl-core");
 import { MessageAttachment } from "discord.js";
 
