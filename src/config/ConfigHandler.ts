@@ -4,7 +4,7 @@ type ConfigShape = {
 };
 
 export class ConfigHandler {
-  // TODO: Implementierung von FileHandler
+  // TODO: Replace this hacky mess.
   private static config: ConfigShape = {
     prefix: "extra",
     defaultActivity: { name: "the sanic theme", type: "LISTENING" },
@@ -56,6 +56,8 @@ export class ConfigHandler {
   }
 
   static checkAdmin(userID: string): boolean {
-    return ConfigHandler.get("admins").has({ id: userID });
+    return ConfigHandler.get("admins").some(
+      (user: { ID: string; [key: string]: any }) => user.ID == userID
+    );
   }
 }
