@@ -3,7 +3,7 @@ import { ConfigHandler } from "../config/ConfigHandler";
 
 client.on("message", async message => {
   if (message.author!.bot || message.content == null) return;
-  const prefix = ConfigHandler.prefix;
+  const prefix = ConfigHandler.get("prefix");
   // checkForPizza();
   if (!message.content.toLowerCase().startsWith(prefix)) return;
   // Split the message at every whitespace character.

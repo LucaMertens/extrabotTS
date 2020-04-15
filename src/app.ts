@@ -2,7 +2,6 @@ require("dotenv").config();
 
 // Start of bot
 import { Client, Collection } from "discord.js";
-import { readdirSync } from "fs";
 import { getCommands, loadEvents } from "./utils";
 import { DropboxHandler } from "./themes/DropboxHandler";
 import { ThemeHandlerInterface } from "./themes/ThemeHandlerInterface";

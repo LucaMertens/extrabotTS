@@ -80,7 +80,7 @@ const theme: Command = {
 
         const attachment = message.attachments.first()!;
         const url = attachment.url.toLowerCase();
-        const valid = ConfigHandler.supportedFiletypes.some(type => url.endsWith(type));
+        const valid = ConfigHandler.get("supportedFiletypes").some(type => url.endsWith(type));
 
         if (!valid) {
           message.channel.send(`Sorry, but this filetype is currently not supported`);

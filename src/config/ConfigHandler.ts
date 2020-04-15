@@ -1,4 +1,3 @@
-// TODO: v Replace this v
 /* eslint-disable require-jsdoc */
 import { ActivityOptions, MessageEmbedOptions } from "discord.js";
 
@@ -16,8 +15,6 @@ type ConfigShape = {
   supportedFiletypes: string[];
   pizzaTimes: PizzaTime[];
 };
-
-type test = keyof ConfigShape;
 
 export class ConfigHandler {
   // TODO: Replace this hacky mess.
@@ -62,26 +59,8 @@ export class ConfigHandler {
     ]
   };
 
-  // F extends ConfigHandler[T, infer R] ? R : any
-  // infer?
-  // static get(property: keyof ConfigShape) {
-  //   return ConfigHandler.config[property];
-  // }
-
-  static get prefix() {
-    return ConfigHandler.config.prefix;
-  }
-  static get defaultActivity() {
-    return ConfigHandler.config.defaultActivity;
-  }
-  static get admins() {
-    return ConfigHandler.config.admins;
-  }
-  static get supportedFiletypes() {
-    return ConfigHandler.config.supportedFiletypes;
-  }
-  static get pizzaTimes() {
-    return ConfigHandler.config.pizzaTimes;
+  static get<K extends keyof ConfigShape>(property: K): ConfigShape[K] {
+    return ConfigHandler.config[property];
   }
 
   static set(property: keyof ConfigShape, value: any): boolean {
@@ -89,6 +68,6 @@ export class ConfigHandler {
     return true;
   }
 
-  static checkAdmin = (userID: string) =>
-    ConfigHandler.admins.some((user: { id: string; [key: string]: any }) => user.id == userID);
+  static checkAdmin = (userId: string) =>
+    ConfigHandler.get("admins").some(admin => admin.id == userId);
 }
