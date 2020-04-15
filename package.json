@@ -27,7 +27,8 @@
     "discord.js": "discordjs/discord.js",
     "dotenv": "^8.2.0",
     "dropbox": "^4.0.30",
-    "isomorphic-fetch": "^2.2.1"
+    "isomorphic-fetch": "^2.2.1",
+    "ytdl-core": "^2.0.1"
   },
   "devDependencies": {
     "typescript": "^3.8.3",

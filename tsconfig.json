@@ -11,16 +11,9 @@
     "target": "es2018", */
 
     /* Configuration for Node ^12.0.0 */
-    "lib": [
-      "DOM",
-
-      "es2019",
-      "es2020.bigint",
-      "es2020.string",
-      "es2020.symbol.wellknown"
-    ],
-    "module": "commonjs",
-    "target": "es2019",
+    "lib": ["DOM", "es2019", "es2020.bigint", "es2020.string", "es2020.symbol.wellknown"],
+    "module": "CommonJS",
+    "target": "ESNext",
 
     "sourceMap": true,
     "rootDir": "src",
@@ -31,7 +24,7 @@
     "allowJs": false,
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": false,
-    "resolveJsonModule": true,
+    // "resolveJsonModule": true,
     "pretty": true,
 
     /* This exists because Discord.Js causes an error during compilation. Try to remove this in the future. */
