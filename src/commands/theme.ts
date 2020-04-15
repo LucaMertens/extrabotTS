@@ -1,11 +1,8 @@
-import { Command } from "../types/Command";
-import { isThemeOn, toggleTheme } from "../events/voiceStateUpdate";
+import { Message, PartialMessage, User } from "discord.js";
+import { themeHandler } from "../app";
 import { ConfigHandler } from "../config/ConfigHandler";
-import { User, Message, PartialMessage } from "discord.js";
-import { DropboxHandler } from "../themes/DropboxHandler";
-import { ThemeHandlerInterface } from "../themes/ThemeHandlerInterface";
-// TODO: Auslagern
-const themeHandler: ThemeHandlerInterface = new DropboxHandler();
+import { isThemeOn, toggleTheme } from "../events/voiceStateUpdate";
+import { Command } from "../types/Command";
 
 const getNumberedThemelist = (nameArray: string[]) => {
   let result = "";
@@ -101,7 +98,6 @@ const theme: Command = {
           recipient = message.author!;
         }
 
-        // TODO: Shared DropboxHandler-Object
         themeHandler.upload(recipient.id, attachment);
         message.channel.send(
           `The theme \`\`\`${attachment.name}\`\`\` has been uploaded for the user ${recipient}`
