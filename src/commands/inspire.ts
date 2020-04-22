@@ -17,7 +17,7 @@ const inspire: Command = {
   },
   help: {
     name: "inspire",
-    description: "Use it to get inspired by inspirational quotes",
+    description: "Used to get inspired by inspirational quotes",
     usage: "extrainspire"
   },
   config: { enabled: true, guildOnly: false }
