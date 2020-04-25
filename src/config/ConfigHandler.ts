@@ -1,5 +1,5 @@
 /* eslint-disable require-jsdoc */
-import { ActivityOptions, MessageEmbedOptions } from "discord.js";
+import { ActivityOptions, MessageEmbedOptions, User } from "discord.js";
 
 interface PizzaTime {
   embed: MessageEmbedOptions;
@@ -67,7 +67,8 @@ export class ConfigHandler {
     ConfigHandler.config[property] = value;
     return true;
   }
-
-  static checkAdmin = (userId: string) =>
-    ConfigHandler.get("admins").some(admin => admin.id == userId);
+  static isAdmin(userOrId: string | User): boolean {
+    const userId = userOrId instanceof User ? userOrId.id : userOrId;
+    return ConfigHandler.get("admins").some(admin => admin.id == userId);
+  }
 }
