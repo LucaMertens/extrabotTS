@@ -1,6 +1,7 @@
 /* eslint-disable require-jsdoc */
 import { ActivityOptions, MessageEmbedOptions, User } from "discord.js";
 
+// Should this be a type?
 interface PizzaTime {
   embed: MessageEmbedOptions;
 }
@@ -17,7 +18,8 @@ type ConfigShape = {
 };
 
 export class ConfigHandler {
-  // TODO: Replace this hacky mess.
+  // TODO: Replace this hacky mess (not so hacky anymore, Done?)
+  // TODO: Work on a real Config implementation, not using hard-coded js objects
   private static config: ConfigShape = {
     prefix: "extra",
     defaultActivity: { name: "the sanic theme", type: "LISTENING" },
