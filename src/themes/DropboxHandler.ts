@@ -4,6 +4,8 @@ import { ThemeHandlerInterface, Playable } from "./ThemeHandlerInterface";
 import { pickRandom } from "../utils";
 import { MessageAttachment, Snowflake } from "discord.js";
 
+// TODO: remove require-jsdoc overrides
+
 /**
  * Provides access to themes stored on a Dropbox-Account.
  */
