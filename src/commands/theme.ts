@@ -1,6 +1,5 @@
 import { Message, PartialMessage, User } from "discord.js";
-import { themeHandler } from "../app";
-import { ConfigHandler } from "../config/ConfigHandler";
+import { themeHandler, config } from "../app";
 import { isThemeOn, toggleTheme } from "../events/voiceStateUpdate";
 import { Command } from "../types/Command";
 
@@ -82,7 +81,7 @@ const theme: Command = {
 
         const attachment = message.attachments.first()!;
         const url = attachment.url.toLowerCase();
-        const valid = ConfigHandler.get("supportedFiletypes").some(type => url.endsWith(type));
+        const valid = config.get("supportedFiletypes").some(type => url.endsWith(type));
         if (!valid) {
           message.channel.send(`Sorry, but this filetype is currently not supported`);
           return;
@@ -94,7 +93,7 @@ const theme: Command = {
         let recipient: User;
         const mentionedUser = message.mentions.users.first();
         if (mentionedUser) {
-          if (ConfigHandler.isAdmin(author) || mentionedUser == author) {
+          if (config.isAdmin(author) || mentionedUser == author) {
             recipient = mentionedUser;
           } else {
             message.channel.send("You need to be an admin to upload themes for other people.");

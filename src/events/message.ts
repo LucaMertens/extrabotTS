@@ -1,9 +1,8 @@
-import { client, commands } from "../app";
-import { ConfigHandler } from "../config/ConfigHandler";
+import { client, commands, config } from "../app";
 
 client.on("message", async message => {
   if (message.author!.bot || message.content == null) return;
-  const prefix = ConfigHandler.get("prefix");
+  const prefix = config.get("prefix");
   // checkForPizza();
   if (!message.content.toLowerCase().startsWith(prefix)) return;
   // Split the message at every whitespace character.

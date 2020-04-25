@@ -1,26 +1,10 @@
 /* eslint-disable require-jsdoc */
-import { ActivityOptions, MessageEmbedOptions, User } from "discord.js";
+import { ConfigShape, ConfigInterface } from "./ConfigInterface";
+import { User } from "discord.js";
 
-// Should this be a type?
-interface PizzaTime {
-  embed: MessageEmbedOptions;
-}
-
-type ConfigShape = {
-  prefix: string;
-  defaultActivity: ActivityOptions;
-  admins: {
-    name: string;
-    id: string;
-  }[];
-  supportedFiletypes: string[];
-  pizzaTimes: PizzaTime[];
-};
-
-export class ConfigHandler {
-  // TODO: Replace this hacky mess (not so hacky anymore, Done?)
+export class ObjectConfig implements ConfigInterface {
   // TODO: Work on a real Config implementation, not using hard-coded js objects
-  private static config: ConfigShape = {
+  private config: ConfigShape = {
     prefix: "extra",
     defaultActivity: { name: "the sanic theme", type: "LISTENING" },
     admins: [
@@ -61,16 +45,17 @@ export class ConfigHandler {
     ]
   };
 
-  static get<K extends keyof ConfigShape>(property: K): ConfigShape[K] {
-    return ConfigHandler.config[property];
+  get<K extends keyof ConfigShape>(property: K): ConfigShape[K] {
+    return this.config[property];
   }
 
-  static set<K extends keyof ConfigShape>(property: K, value: ConfigShape[K]): boolean {
-    ConfigHandler.config[property] = value;
+  set<K extends keyof ConfigShape>(property: K, value: ConfigShape[K]): boolean {
+    this.config[property] = value;
     return true;
   }
-  static isAdmin(userOrId: string | User): boolean {
+
+  isAdmin(userOrId: string | User): boolean {
     const userId = userOrId instanceof User ? userOrId.id : userOrId;
-    return ConfigHandler.get("admins").some(admin => admin.id == userId);
+    return this.get("admins").some(admin => admin.id == userId);
   }
 }
