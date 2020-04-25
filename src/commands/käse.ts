@@ -14,6 +14,7 @@ const käse: Command = {
         .then(connection => {
           //   client.voiceChannel = voiceChannel;
           const dispatcher = connection.play(
+            // TODO: Use other type of Link
             "https://cdn.glitch.com/38dd0611-f9f8-451e-b5b4-8b630a644a8e%2FK%C3%A4se-Song.mp3"
           );
           dispatcher.on("end", () => {

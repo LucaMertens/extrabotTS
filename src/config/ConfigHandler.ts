@@ -1,6 +1,7 @@
 /* eslint-disable require-jsdoc */
 import { ActivityOptions, MessageEmbedOptions } from "discord.js";
 
+// Should this be a type?
 interface PizzaTime {
   embed: MessageEmbedOptions;
 }
