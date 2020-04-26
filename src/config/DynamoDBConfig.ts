@@ -3,19 +3,18 @@ import { ConfigInterface, GuildConfig, GlobalConfig, UserConfig } from "./Config
 import { config, DynamoDB } from "aws-sdk";
 import { Guild, User } from "discord.js";
 
-class DynamoDBHandler implements ConfigInterface {
+export class DynamoDBHandler implements ConfigInterface {
   private docClient: DynamoDB.DocumentClient;
   private TABLE_NAME = "Extrabot-Config";
   private HASH_KEY = "type:id";
   private SORT_KEY = "key";
 
-  constructor(token: string) {
+  constructor() {
     config.update({ region: "us-east-1" });
     this.docClient = new DynamoDB.DocumentClient({ apiVersion: "2012-08-10" });
   }
 
-  getGlobalEntry<K extends keyof GlobalConfig>(property: K): GlobalConfig[K] {
-    let value: GlobalConfig[K];
+  async getGlobalEntry<K extends keyof GlobalConfig>(property: K): Promise<GlobalConfig[K]> {
     const params: DynamoDB.DocumentClient.GetItemInput = {
       TableName: this.TABLE_NAME,
       Key: {
@@ -25,14 +24,18 @@ class DynamoDBHandler implements ConfigInterface {
       ProjectionExpression: "value"
     };
 
-    this.docClient.get(params, (err, data) => {
-      console.log(data);
-      value = data.Item.value;
-    });
-    return value;
+    const { Item } = await this.docClient.get(params).promise();
+    if (Item == undefined) {
+      throw new Error("yeet");
+    }
+
+    return Item.value;
   }
 
-  getGuildEntry<K extends keyof GuildConfig>(guild: Guild, property: K): GuildConfig[K] {
+  async getGuildEntry<K extends keyof GuildConfig>(
+    guild: Guild,
+    property: K
+  ): Promise<GuildConfig[K]> {
     let value: GuildConfig[K];
     const params: DynamoDB.DocumentClient.GetItemInput = {
       TableName: this.TABLE_NAME,
@@ -43,14 +46,15 @@ class DynamoDBHandler implements ConfigInterface {
       ProjectionExpression: "value"
     };
 
-    this.docClient.get(params, (err, data) => {
-      console.log(data);
-      value = data.Item.value;
-    });
-    return value;
+    const { Item } = await this.docClient.get(params).promise();
+    if (Item == undefined) {
+      throw new Error("yeet");
+    }
+
+    return Item.value;
   }
 
-  getUserEntry<K extends keyof UserConfig>(user: User, property: K): UserConfig[K] {
+  async getUserEntry<K extends keyof UserConfig>(user: User, property: K): Promise<UserConfig[K]> {
     let value: UserConfig[K];
     const params: DynamoDB.DocumentClient.GetItemInput = {
       TableName: this.TABLE_NAME,
@@ -61,11 +65,12 @@ class DynamoDBHandler implements ConfigInterface {
       ProjectionExpression: "value"
     };
 
-    this.docClient.get(params, (err, data) => {
-      console.log(data);
-      value = data.Item.value;
-    });
-    return value;
+    const { Item } = await this.docClient.get(params).promise();
+    if (Item == undefined) {
+      throw new Error("yeet");
+    }
+
+    return Item.value;
   }
 
   setGlobalEntry<K extends keyof GlobalConfig>(key: K, value: GlobalConfig[K]): boolean {
@@ -119,9 +124,13 @@ class DynamoDBHandler implements ConfigInterface {
     return false;
   }
 
-  isAdmin(guild: Guild, userId: string): boolean {
-    if (this.getGlobalEntry("botOwners").some(botOwner => botOwner.id == userId)) return true;
-    if (!guild) return;
-    return this.getGuildEntry(guild, "admins").some(admin => admin.id == userId);
+  async isAdmin(guild: Guild, userId: string): Promise<boolean> {
+    const botOwners = await this.getGlobalEntry("botOwners");
+    if (botOwners.some(botOwner => botOwner.id == userId)) return true;
+
+    if (!guild) return false;
+
+    const admins = await this.getGuildEntry(guild, "admins");
+    return admins.some(admin => admin.id == userId);
   }
 }

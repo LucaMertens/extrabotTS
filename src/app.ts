@@ -7,10 +7,10 @@ import { DropboxHandler } from "./themes/DropboxHandler";
 import { ThemeHandlerInterface } from "./themes/ThemeHandlerInterface";
 import { Command } from "./types/Command";
 import { ConfigInterface } from "./config/ConfigInterface";
-import { ObjectConfig } from "./config/ObjectConfig";
+import { DynamoDBHandler } from "./config/DynamoDBConfig";
 
 export const themeHandler: ThemeHandlerInterface = new DropboxHandler();
-export const config: ConfigInterface = new ObjectConfig();
+export const config: ConfigInterface = new DynamoDBHandler();
 export let commands: Collection<string, Command>;
 export const client: Client = new Client();
 

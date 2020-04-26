@@ -64,7 +64,7 @@ const determineTarget = (message: Message, needsAdminRights = false) => {
 
   if (guild == null || message.mentions.users.size == 0) return author;
 
-  if (!needsAdminRights || config.isAdmin(guild, author)) {
+  if (!needsAdminRights || config.isAdmin(guild, author.id)) {
     return message.mentions.users.first()!;
   } else {
     message.channel.send("You need to be an admin to do that.");
@@ -94,7 +94,8 @@ const theme: Command = {
 
         const attachment = message.attachments.first()!;
         const url = attachment.url.toLowerCase();
-        const valid = config.getGlobalEntry("supportedFiletypes").some(type => url.endsWith(type));
+        const supportedFiletypes = await config.getGlobalEntry("supportedFiletypes");
+        const valid = supportedFiletypes.some(type => url.endsWith(type));
         if (!valid) {
           message.channel.send(`Sorry, but this filetype is currently not supported`);
           return;

@@ -40,21 +40,21 @@ export interface ConfigInterface {
    * @param property The key to retrieve the value for.
    * @return The value for the provided key.
    */
-  getGlobalEntry<K extends keyof GlobalConfig>(property: K): GlobalConfig[K];
+  getGlobalEntry<K extends keyof GlobalConfig>(property: K): Promise<GlobalConfig[K]>;
   /**
    * Returns the guild-specific config-entry (value) for the given property (key).
    * @param guild The guild to retrieve the configuration for.
    * @param property The key to retrieve the value for.
    * @return The value for the provided key.
    */
-  getGuildEntry<K extends keyof GuildConfig>(guild: Guild, property: K): GuildConfig[K];
+  getGuildEntry<K extends keyof GuildConfig>(guild: Guild, property: K): Promise<GuildConfig[K]>;
   /**
    * Returns the user-specific config-entry (value) for the given property (key).
    * @param user The user to retrieve the configuration for.
    * @param property The key to retrieve the value for.
    * @return The value for the provided key.
    */
-  getUserEntry<K extends keyof UserConfig>(user: User, property: K): UserConfig[K];
+  getUserEntry<K extends keyof UserConfig>(user: User, property: K): Promise<UserConfig[K]>;
   /**
    * Sets Values inside the global config.
    * @param property Config field where to insert value.
@@ -83,5 +83,5 @@ export interface ConfigInterface {
    * @param userOrId The User ID.
    * @return {boolean} a boolean value representing whether the user is an admin in the guild.
    */
-  isAdmin(guild: Guild, userId: string): boolean;
+  isAdmin(guild: Guild, userId: string): Promise<boolean>;
 }
