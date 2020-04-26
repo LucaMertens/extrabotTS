@@ -14,6 +14,10 @@ export type GlobalConfig = {
   supportedFiletypes: string[];
   pizzaTimes: PizzaTime[];
   defaultActivity: ActivityOptions;
+  botOwners: {
+    name: string;
+    id: string;
+  }[];
 };
 
 export type GuildConfig = {
@@ -57,31 +61,27 @@ export interface ConfigInterface {
    * @param value Value to insert at given property.
    * @return true, if the value was successfully set, else false.
    */
-  setGlobalEntry<K extends keyof GlobalConfig>(property: K, value: GlobalConfig[K]): boolean;
+  setGlobalEntry<K extends keyof GlobalConfig>(key: K, value: GlobalConfig[K]): boolean;
   /**
    * Sets Values inside the guild config.
-   * @param property Config field where to insert value.
+   * @param key Config field where to insert value.
    * @param value Value to insert at given property.
    * @return true, if the value was successfully set, else false.
    */
-  setGuildEntry<K extends keyof GuildConfig>(
-    guild: Guild,
-    property: K,
-    value: GuildConfig[K]
-  ): boolean;
+  setGuildEntry<K extends keyof GuildConfig>(guild: Guild, key: K, value: GuildConfig[K]): boolean;
   /**
    * Sets Values inside the user config.
    * @param user The user to insert a config value for.
-   * @param property Config field where to insert value.
+   * @param key Config field where to insert value.
    * @param value Value to insert at given property.
    * @return true, if the value was successfully set, else false.
    */
-  setUserEntry<K extends keyof UserConfig>(user: User, property: K, value: UserConfig[K]): boolean;
+  setUserEntry<K extends keyof UserConfig>(user: User, key: K, value: UserConfig[K]): boolean;
   /**
    * Checks if a user is an admin.
    * @param guild The guild to check the admin status for.
-   * @param userOrId The User object or ID.
+   * @param userOrId The User ID.
    * @return {boolean} a boolean value representing whether the user is an admin in the guild.
    */
-  isAdmin(guild: Guild, userOrId: string | User): boolean;
+  isAdmin(guild: Guild, userId: string): boolean;
 }

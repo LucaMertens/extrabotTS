@@ -16,7 +16,7 @@ const käse: Command = {
             "https://cdn.glitch.com/38dd0611-f9f8-451e-b5b4-8b630a644a8e%2FK%C3%A4se-Song.mp3"
           );
           dispatcher.on("end", () => {
-            client.user!.setActivity(config.get("defaultActivity"));
+            client.user!.setActivity(config.getGlobalEntry("defaultActivity"));
           });
         })
         .catch(err => {
