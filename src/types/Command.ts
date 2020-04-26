@@ -1,6 +1,6 @@
 import { Message, PartialMessage } from "discord.js";
 export type Command = {
-  execute(message: Message | PartialMessage, args: string[]): Promise<void>;
+  execute(message: Message, args: string[]): Promise<void>;
   help: {
     name: string;
     description: string;

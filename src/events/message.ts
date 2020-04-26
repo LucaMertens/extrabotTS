@@ -1,8 +1,9 @@
 import { client, commands, config } from "../app";
+import { Message } from "discord.js";
 
-client.on("message", async message => {
-  if (message.author!.bot || message.content == null) return;
-  const prefix = config.get("prefix");
+client.on("message", async (message: Message) => {
+  if (message.author!.bot || message.content == null || message.type != "DEFAULT") return;
+  const prefix = config.getGlobalEntry("prefix");
   // checkForPizza();
   if (!message.content.toLowerCase().startsWith(prefix)) return;
   // Split the message at every whitespace character.
