@@ -12,7 +12,7 @@ const getNumberedThemelist = (nameArray: string[]) => {
 };
 
 const themeChooserDialogue = async (
-  message: Message | PartialMessage,
+  message: Message,
   themeNames: string[],
   text: string
 ): Promise<string | null> => {
@@ -59,6 +59,18 @@ const yesNoDialogue = async (message: Message | PartialMessage, defaultValue = f
   else return false;
 };
 
+const determineTarget = (message: Message, needsAdminRights = false) => {
+  const { author, guild } = message;
+
+  if (guild == null || message.mentions.users.size == 0) return author;
+
+  if (!needsAdminRights || config.isAdmin(guild, author)) {
+    return message.mentions.users.first()!;
+  } else {
+    message.channel.send("You need to be an admin to do that.");
+  }
+};
+
 const theme: Command = {
   execute: async (message, args) => {
     if (args[0] == null) {
@@ -73,7 +85,8 @@ const theme: Command = {
         isThemeOn ? toggleTheme() : null;
         break;
 
-      case "upload": // TODO: Error handling!
+      case "upload": {
+        // TODO: Error handling!
         if (message.attachments.size == 0) {
           message.channel.send("M8, you forgot the attachment");
           return;
@@ -81,37 +94,26 @@ const theme: Command = {
 
         const attachment = message.attachments.first()!;
         const url = attachment.url.toLowerCase();
-        const valid = config.get("supportedFiletypes").some(type => url.endsWith(type));
+        const valid = config.getGlobalEntry("supportedFiletypes").some(type => url.endsWith(type));
         if (!valid) {
           message.channel.send(`Sorry, but this filetype is currently not supported`);
           return;
         }
 
-        const { author } = message;
-        if (!author) return;
+        const target = determineTarget(message, true);
+        if (!target) return;
 
-        let recipient: User;
-        const mentionedUser = message.mentions.users.first();
-        if (mentionedUser) {
-          if (config.isAdmin(author) || mentionedUser == author) {
-            recipient = mentionedUser;
-          } else {
-            message.channel.send("You need to be an admin to upload themes for other people.");
-            return;
-          }
-        } else {
-          recipient = author;
-        }
-
-        themeHandler.upload(recipient.id, attachment);
+        themeHandler.upload(target.id, attachment);
         message.channel.send(
-          `The theme \`\`\`${attachment.name}\`\`\` has been uploaded for the user ${recipient}`
+          `The theme \`\`\`${attachment.name}\`\`\` has been uploaded for the user ${target}`
         );
         break;
+      }
 
-      case "delete":
-        const userId = message.author!.id;
-        const themeNames = await themeHandler.listThemeNames(userId);
+      case "delete": {
+        const target = determineTarget(message, true);
+        if (!target) return;
+        const themeNames = await themeHandler.listThemeNames(target.id);
         let themeToDelete: string | null;
 
         if (args[1] == null) {
@@ -150,16 +152,15 @@ const theme: Command = {
           return;
         }
 
-        await themeHandler.delete(userId, themeToDelete);
+        await themeHandler.delete(target.id, themeToDelete);
         message.channel.send(`The theme \`${themeToDelete}\` has been successfully deleted.`);
         break;
+      }
 
       case "list":
         try {
-          const userId = message.mentions.users.size
-            ? message.mentions.users.first()!.id
-            : message.author!.id;
-          const themeNames = await themeHandler.listThemeNames(userId);
+          const target = determineTarget(message, false)!;
+          const themeNames = await themeHandler.listThemeNames(target.id);
           message.channel.send(themeNames);
         } catch (error) {
           message.channel.send("There was an error.");
