@@ -4,7 +4,7 @@ import { client, config } from "../app";
 // TODO: better error handling than console.error()
 const käse: Command = {
   execute: async (message, args) => {
-    const voiceChannel = message.member?.voice.channel;
+    const voiceChannel = message.member!.voice.channel;
     if (voiceChannel) {
       message.channel.send("🧀🧀 Operation  *K Ä S E*   is a go 🧀🧀");
       client.user!.setActivity("the Käse-Song", { type: "LISTENING" });
