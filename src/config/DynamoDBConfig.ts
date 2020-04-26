@@ -38,7 +38,7 @@ class DynamoDBHandler implements ConfigInterface {
       TableName: this.TABLE_NAME,
       Key: {
         [this.HASH_KEY]: "guild:" + guild.id,
-        key: property
+        [this.SORT_KEY]: property
       },
       ProjectionExpression: "value"
     };
@@ -56,7 +56,7 @@ class DynamoDBHandler implements ConfigInterface {
       TableName: this.TABLE_NAME,
       Key: {
         [this.HASH_KEY]: "user:" + user.id,
-        key: property
+        [this.SORT_KEY]: property
       },
       ProjectionExpression: "value"
     };
@@ -71,7 +71,7 @@ class DynamoDBHandler implements ConfigInterface {
   setGlobalEntry<K extends keyof GlobalConfig>(key: K, value: GlobalConfig[K]): boolean {
     const params = {
       TableName: this.TABLE_NAME,
-      Item: { [this.HASH_KEY]: "global", key, value }
+      Item: { [this.HASH_KEY]: "global", [this.SORT_KEY]: key, value }
     };
 
     this.docClient.put(params, function(err, data) {
@@ -88,7 +88,7 @@ class DynamoDBHandler implements ConfigInterface {
   setGuildEntry<K extends keyof GuildConfig>(guild: Guild, key: K, value: GuildConfig[K]): boolean {
     const params = {
       TableName: this.TABLE_NAME,
-      Item: { [this.HASH_KEY]: `guild:${guild.id}`, key, value }
+      Item: { [this.HASH_KEY]: `guild:${guild.id}`, [this.SORT_KEY]: key, value }
     };
 
     this.docClient.put(params, function(err, data) {
@@ -105,7 +105,7 @@ class DynamoDBHandler implements ConfigInterface {
   setUserEntry<K extends keyof UserConfig>(user: User, key: K, value: UserConfig[K]): boolean {
     const params = {
       TableName: this.TABLE_NAME,
-      Item: { [this.HASH_KEY]: `user:${user.id}`, key, value }
+      Item: { [this.HASH_KEY]: `user:${user.id}`, [this.SORT_KEY]: key, value }
     };
 
     this.docClient.put(params, function(err, data) {
