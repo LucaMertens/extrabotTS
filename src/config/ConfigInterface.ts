@@ -1,18 +1,30 @@
-import { ActivityOptions, MessageEmbedOptions, User } from "discord.js";
+import { ActivityOptions, MessageEmbedOptions, User, Guild } from "discord.js";
 
 type PizzaTime = {
   embed: MessageEmbedOptions;
 };
 
-export type ConfigShape = {
+// export type ConfigShape = {
+//   global: {};
+//   local: {};
+// };
+
+export type GlobalConfig = {
   prefix: string;
+  supportedFiletypes: string[];
+  pizzaTimes: PizzaTime[];
   defaultActivity: ActivityOptions;
+};
+
+export type GuildConfig = {
   admins: {
     name: string;
     id: string;
   }[];
-  supportedFiletypes: string[];
-  pizzaTimes: PizzaTime[];
+};
+
+export type UserConfig = {
+  isThemeOn: boolean;
 };
 
 /**
@@ -20,22 +32,56 @@ export type ConfigShape = {
  */
 export interface ConfigInterface {
   /**
-   * Returns the config-entry (value) for the given property (key).
+   * Returns the global config-entry (value) for the given property (key).
    * @param property The key to retrieve the value for.
    * @return The value for the provided key.
    */
-  get<K extends keyof ConfigShape>(property: K): ConfigShape[K];
+  getGlobalEntry<K extends keyof GlobalConfig>(property: K): GlobalConfig[K];
   /**
-   * Sets Values inside the config
-   * @param property Config field where to insert value
-   * @param value Value to insert at given property
+   * Returns the guild-specific config-entry (value) for the given property (key).
+   * @param guild The guild to retrieve the configuration for.
+   * @param property The key to retrieve the value for.
+   * @return The value for the provided key.
+   */
+  getGuildEntry<K extends keyof GuildConfig>(guild: Guild, property: K): GuildConfig[K];
+  /**
+   * Returns the user-specific config-entry (value) for the given property (key).
+   * @param user The user to retrieve the configuration for.
+   * @param property The key to retrieve the value for.
+   * @return The value for the provided key.
+   */
+  getUserEntry<K extends keyof UserConfig>(user: User, property: K): UserConfig[K];
+  /**
+   * Sets Values inside the global config.
+   * @param property Config field where to insert value.
+   * @param value Value to insert at given property.
    * @return true, if the value was successfully set, else false.
    */
-  set<K extends keyof ConfigShape>(property: K, value: ConfigShape[K]): boolean;
+  setGlobalEntry<K extends keyof GlobalConfig>(property: K, value: GlobalConfig[K]): boolean;
   /**
-   * Checks if a user is an admin
-   * @param userOrId The User object or ID
-   * @return {boolean} returns boolean value
+   * Sets Values inside the guild config.
+   * @param property Config field where to insert value.
+   * @param value Value to insert at given property.
+   * @return true, if the value was successfully set, else false.
    */
-  isAdmin(userOrId: string | User): boolean;
+  setGuildEntry<K extends keyof GuildConfig>(
+    guild: Guild,
+    property: K,
+    value: GuildConfig[K]
+  ): boolean;
+  /**
+   * Sets Values inside the user config.
+   * @param user The user to insert a config value for.
+   * @param property Config field where to insert value.
+   * @param value Value to insert at given property.
+   * @return true, if the value was successfully set, else false.
+   */
+  setUserEntry<K extends keyof UserConfig>(user: User, property: K, value: UserConfig[K]): boolean;
+  /**
+   * Checks if a user is an admin.
+   * @param guild The guild to check the admin status for.
+   * @param userOrId The User object or ID.
+   * @return {boolean} a boolean value representing whether the user is an admin in the guild.
+   */
+  isAdmin(guild: Guild, userOrId: string | User): boolean;
 }
