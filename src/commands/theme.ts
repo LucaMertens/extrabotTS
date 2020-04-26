@@ -156,12 +156,13 @@ const theme: Command = {
 
       case "list":
         try {
-          const themeNames = message.mentions.users.first()
-            ? themeHandler.listThemeNames(message.mentions.users.first()!.id)
-            : themeHandler.listThemeNames(message.author!.id);
+          const userId = message.mentions.users.size
+            ? message.mentions.users.first()!.id
+            : message.author!.id;
+          const themeNames = await themeHandler.listThemeNames(userId);
           message.channel.send(themeNames);
         } catch (error) {
-          message.channel.send(error.name);
+          message.channel.send("There was an error.");
         }
         break;
     }
