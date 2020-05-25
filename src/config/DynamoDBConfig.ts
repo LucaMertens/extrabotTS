@@ -12,6 +12,7 @@ export class DynamoDBHandler implements ConfigInterface {
   constructor() {
     config.update({ region: "us-east-1" });
     this.docClient = new DynamoDB.DocumentClient({ apiVersion: "2012-08-10" });
+    config.accessKeyId;
   }
 
   async getGlobalEntry<K extends keyof GlobalConfig>(property: K): Promise<GlobalConfig[K]> {
@@ -21,29 +22,27 @@ export class DynamoDBHandler implements ConfigInterface {
         [this.HASH_KEY]: "global",
         [this.SORT_KEY]: property
       },
-      ProjectionExpression: "value"
+      ProjectionExpression: "val"
     };
 
     const { Item } = await this.docClient.get(params).promise();
     if (Item == undefined) {
       throw new Error("yeet");
     }
-
-    return Item.value;
+    return Item.val;
   }
 
   async getGuildEntry<K extends keyof GuildConfig>(
     guild: Guild,
     property: K
   ): Promise<GuildConfig[K]> {
-    let value: GuildConfig[K];
     const params: DynamoDB.DocumentClient.GetItemInput = {
       TableName: this.TABLE_NAME,
       Key: {
         [this.HASH_KEY]: "guild:" + guild.id,
         [this.SORT_KEY]: property
       },
-      ProjectionExpression: "value"
+      ProjectionExpression: "val"
     };
 
     const { Item } = await this.docClient.get(params).promise();
@@ -51,18 +50,17 @@ export class DynamoDBHandler implements ConfigInterface {
       throw new Error("yeet");
     }
 
-    return Item.value;
+    return Item.val;
   }
 
   async getUserEntry<K extends keyof UserConfig>(user: User, property: K): Promise<UserConfig[K]> {
-    let value: UserConfig[K];
     const params: DynamoDB.DocumentClient.GetItemInput = {
       TableName: this.TABLE_NAME,
       Key: {
         [this.HASH_KEY]: "user:" + user.id,
         [this.SORT_KEY]: property
       },
-      ProjectionExpression: "value"
+      ProjectionExpression: "val"
     };
 
     const { Item } = await this.docClient.get(params).promise();
@@ -70,13 +68,16 @@ export class DynamoDBHandler implements ConfigInterface {
       throw new Error("yeet");
     }
 
-    return Item.value;
+    return Item.val;
   }
 
-  setGlobalEntry<K extends keyof GlobalConfig>(key: K, value: GlobalConfig[K]): boolean {
+  async setGlobalEntry<K extends keyof GlobalConfig>(
+    key: K,
+    val: GlobalConfig[K]
+  ): Promise<boolean> {
     const params = {
       TableName: this.TABLE_NAME,
-      Item: { [this.HASH_KEY]: "global", [this.SORT_KEY]: key, value }
+      Item: { [this.HASH_KEY]: "global", [this.SORT_KEY]: key, val }
     };
 
     this.docClient.put(params, function(err, data) {
@@ -90,10 +91,14 @@ export class DynamoDBHandler implements ConfigInterface {
     return false;
   }
 
-  setGuildEntry<K extends keyof GuildConfig>(guild: Guild, key: K, value: GuildConfig[K]): boolean {
+  async setGuildEntry<K extends keyof GuildConfig>(
+    guild: Guild,
+    key: K,
+    val: GuildConfig[K]
+  ): Promise<boolean> {
     const params = {
       TableName: this.TABLE_NAME,
-      Item: { [this.HASH_KEY]: `guild:${guild.id}`, [this.SORT_KEY]: key, value }
+      Item: { [this.HASH_KEY]: `guild:${guild.id}`, [this.SORT_KEY]: key, val }
     };
 
     this.docClient.put(params, function(err, data) {
@@ -107,10 +112,14 @@ export class DynamoDBHandler implements ConfigInterface {
     return false;
   }
 
-  setUserEntry<K extends keyof UserConfig>(user: User, key: K, value: UserConfig[K]): boolean {
+  async setUserEntry<K extends keyof UserConfig>(
+    user: User,
+    key: K,
+    val: UserConfig[K]
+  ): Promise<boolean> {
     const params = {
       TableName: this.TABLE_NAME,
-      Item: { [this.HASH_KEY]: `user:${user.id}`, [this.SORT_KEY]: key, value }
+      Item: { [this.HASH_KEY]: `user:${user.id}`, [this.SORT_KEY]: key, val }
     };
 
     this.docClient.put(params, function(err, data) {
