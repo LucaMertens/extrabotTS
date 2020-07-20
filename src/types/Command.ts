@@ -1,4 +1,4 @@
-import { Message, PartialMessage } from "discord.js";
+import { Message } from "discord.js";
 export type Command = {
   execute(message: Message, args: string[]): Promise<void>;
   help: {
