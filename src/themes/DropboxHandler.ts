@@ -82,6 +82,9 @@ export class DropboxHandler implements ThemeHandlerInterface {
 
   /* eslint-disable-next-line require-jsdoc */
   async upload(userId: Snowflake, attachment: MessageAttachment): Promise<boolean> {
+    if (!attachment.name) {
+      throw new Error("Moin, du hast gar keine Datei angegeben");
+    }
     const path = DropboxHandler.getPath(userId, attachment.name);
 
     await this.dropbox.filesSaveUrl({ path, url: attachment.url });
