@@ -12,7 +12,6 @@ export class DynamoDBHandler implements ConfigInterface {
   constructor() {
     config.update({ region: "us-east-1" });
     this.docClient = new DynamoDB.DocumentClient({ apiVersion: "2012-08-10" });
-    config.accessKeyId;
   }
 
   async getGlobalEntry<K extends keyof GlobalConfig>(property: K): Promise<GlobalConfig[K]> {
