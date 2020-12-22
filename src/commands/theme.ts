@@ -1,4 +1,4 @@
-import { Message, PartialMessage} from "discord.js";
+import { Message, PartialMessage } from "discord.js";
 import { themeHandler, config } from "../app";
 import { isThemeOn, toggleTheme } from "../events/voiceStateUpdate";
 import { Command } from "../types/Command";
