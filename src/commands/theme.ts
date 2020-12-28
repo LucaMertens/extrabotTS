@@ -98,6 +98,14 @@ async function handleUpload(message: Message): Promise<void> {
     return;
   }
 
+  const target = determineTarget(message);
+  // A user needs to be an admin on the guild to upload themes for other people.
+  const { guild, author } = message;
+  if (target !== author && !config.isAdmin(guild!, author.id)) {
+    message.channel.send("You need to be an admin to do that.");
+    return;
+  }
+
   const attachment = message.attachments.first()!;
   const url = attachment.url.toLowerCase();
   const supportedFiletypes = await config.getGlobalEntry("supportedFiletypes");
@@ -105,14 +113,6 @@ async function handleUpload(message: Message): Promise<void> {
 
   if (!isFiletypeValid) {
     message.channel.send(`Sorry, but this filetype is currently not supported`);
-    return;
-  }
-
-  const target = determineTarget(message);
-  // A user needs to be an admin on the guild to upload themes for other people.
-  const { guild, author } = message;
-  if (target !== message.author && config.isAdmin(guild!, author.id)) {
-    message.channel.send("You need to be an admin to do that.");
     return;
   }
 
@@ -133,8 +133,9 @@ async function handleDelete(message: Message, query: string | null): Promise<voi
   const target = determineTarget(message);
 
   const { guild, author } = message;
-  if (target !== message.author && config.isAdmin(guild!, author.id)) {
+  if (target !== author && !config.isAdmin(guild!, author.id)) {
     message.channel.send("You need to be an admin to do that.");
+    return;
   }
 
   const themeNames = await themeHandler.listThemeNames(target.id);
