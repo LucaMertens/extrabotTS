@@ -35,7 +35,7 @@ export class ObjectConfig implements ConfigInterface {
   }
   async isAdmin(guild: Guild, userId: string): Promise<boolean> {
     const botOwners = await this.getGlobalEntry("botOwners");
-    return botOwners.some(admin => admin.id == userId);
+    return botOwners.some(admin => admin.id === userId);
   }
 
   // TODO: Work on a real Config implementation, not using hard-coded js objects

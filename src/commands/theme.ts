@@ -123,7 +123,7 @@ async function handleUpload(message: Message): Promise<void> {
 }
 
 /**
- * If the query-string matches the start of a theme: delete that;
+ * If the query-string matches the start of a theme: delete it;
  * otherwise ask the user to choose a theme to delete.
  * @param message The command as a Discord-Message.
  * @param query A prefix to search for (eg. in `extratheme delete dank`, "dank" would be the query matching the themes `dank`, `dankmemes` etc.)
@@ -236,7 +236,7 @@ const theme: Command = {
     try {
       await handleThemeCommand(message, args);
     } catch (error) {
-      message.channel.send(`The following error occurred:\n\`\`\`${error}\`\`\``);
+      message.channel.send(`The following error occurred:\n\`\`\`${error.message}\`\`\``);
     }
   }
 };
