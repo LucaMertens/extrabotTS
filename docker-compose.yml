@@ -8,3 +8,12 @@ services:
       dockerfile: ./Dockerfile
     environment:
       NODE_ENV: production
+  database:
+    image: "mongo"
+    container_name: "mongo-db"
+    env_file: .env
+    volumes:
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ./mongo-volume:/data/db
+    ports:
+      - "27017-27019:27017-27019"
