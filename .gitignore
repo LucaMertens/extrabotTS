@@ -43,3 +43,4 @@ yarn.lock
 
 # ignore Linux .history
 .history
+mongo-volume
