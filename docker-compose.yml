@@ -17,7 +17,7 @@ services:
     env_file: .env
     volumes:
       - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
-      - ./mongo-volume:/data/db
+      - ./db/mongo-volume:/data/db
     networks:
       - extrabotts_default
 
