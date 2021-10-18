@@ -30,9 +30,9 @@ const käse: Command = {
   help: {
     name: "käse",
     description: "Used to launch operation Käse",
-    usage: "extrakäse"
+    usage: "extrakäse",
   },
-  config: { enabled: true, guildOnly: true }
+  config: { enabled: true, guildOnly: true },
 };
 
 module.exports = käse;

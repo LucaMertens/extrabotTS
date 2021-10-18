@@ -7,9 +7,9 @@ const ping: Command = {
   help: {
     name: "ping",
     description: "Used to check whether Extrabot is responding.",
-    usage: "extraping"
+    usage: "extraping",
   },
-  config: { enabled: true, guildOnly: false }
+  config: { enabled: true, guildOnly: false },
 };
 
 module.exports = ping;

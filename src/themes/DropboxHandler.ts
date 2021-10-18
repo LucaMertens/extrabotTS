@@ -13,7 +13,7 @@ export class DropboxHandler implements ThemeHandlerInterface {
   constructor() {
     this.dropbox = new Dropbox({
       fetch: isomorphicFetch,
-      accessToken: process.env.DROPBOXTOKEN
+      accessToken: process.env.DROPBOXTOKEN,
     });
   }
 

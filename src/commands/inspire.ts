@@ -15,8 +15,8 @@ const inspire: Command = {
   help: {
     name: "inspire",
     description: "Used to get inspired by inspirational quotes",
-    usage: "extrainspire"
-  }
+    usage: "extrainspire",
+  },
 };
 
 module.exports = inspire;

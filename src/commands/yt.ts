@@ -22,9 +22,9 @@ const yt: Command = {
   help: {
     name: "yt",
     description: "Downloads the audio-part of a Youtube-video",
-    usage: "extrayt <Youtube-Link> [begin]"
+    usage: "extrayt <Youtube-Link> [begin]",
   },
-  config: { enabled: true, guildOnly: false }
+  config: { enabled: true, guildOnly: false },
 };
 
 module.exports = yt;

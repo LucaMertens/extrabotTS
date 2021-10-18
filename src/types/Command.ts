@@ -14,4 +14,4 @@ export type Command = {
 
 // TODO: Replace with ts is<> library.
 export const isCommand = (object: any): object is Command =>
-    !!object.execute /* && !!object.help && !!object.config */;
+  !!object.execute; /* && !!object.help && !!object.config */

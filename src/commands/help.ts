@@ -17,7 +17,7 @@ const help: Command = {
     message.channel.send(outputMessage);
   },
   help: { name: "help", description: "helps", usage: "help pls" },
-  config: { enabled: true, guildOnly: false }
+  config: { enabled: true, guildOnly: false },
 };
 
 module.exports = help;

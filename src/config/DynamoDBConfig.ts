@@ -19,9 +19,9 @@ export class DynamoDBHandler implements ConfigInterface {
       TableName: this.TABLE_NAME,
       Key: {
         [this.HASH_KEY]: "global",
-        [this.SORT_KEY]: property
+        [this.SORT_KEY]: property,
       },
-      ProjectionExpression: "val"
+      ProjectionExpression: "val",
     };
 
     const { Item } = await this.docClient.get(params).promise();
@@ -39,9 +39,9 @@ export class DynamoDBHandler implements ConfigInterface {
       TableName: this.TABLE_NAME,
       Key: {
         [this.HASH_KEY]: "guild:" + guild.id,
-        [this.SORT_KEY]: property
+        [this.SORT_KEY]: property,
       },
-      ProjectionExpression: "val"
+      ProjectionExpression: "val",
     };
 
     const { Item } = await this.docClient.get(params).promise();
@@ -57,9 +57,9 @@ export class DynamoDBHandler implements ConfigInterface {
       TableName: this.TABLE_NAME,
       Key: {
         [this.HASH_KEY]: "user:" + user.id,
-        [this.SORT_KEY]: property
+        [this.SORT_KEY]: property,
       },
-      ProjectionExpression: "val"
+      ProjectionExpression: "val",
     };
 
     const { Item } = await this.docClient.get(params).promise();
@@ -76,10 +76,10 @@ export class DynamoDBHandler implements ConfigInterface {
   ): Promise<boolean> {
     const params = {
       TableName: this.TABLE_NAME,
-      Item: { [this.HASH_KEY]: "global", [this.SORT_KEY]: key, val }
+      Item: { [this.HASH_KEY]: "global", [this.SORT_KEY]: key, val },
     };
 
-    this.docClient.put(params, function(err, data) {
+    this.docClient.put(params, function (err, data) {
       if (err) {
         console.log(err);
       } else {
@@ -97,10 +97,10 @@ export class DynamoDBHandler implements ConfigInterface {
   ): Promise<boolean> {
     const params = {
       TableName: this.TABLE_NAME,
-      Item: { [this.HASH_KEY]: `guild:${guild.id}`, [this.SORT_KEY]: key, val }
+      Item: { [this.HASH_KEY]: `guild:${guild.id}`, [this.SORT_KEY]: key, val },
     };
 
-    this.docClient.put(params, function(err, data) {
+    this.docClient.put(params, function (err, data) {
       if (err) {
         console.log(err);
       } else {
@@ -118,10 +118,10 @@ export class DynamoDBHandler implements ConfigInterface {
   ): Promise<boolean> {
     const params = {
       TableName: this.TABLE_NAME,
-      Item: { [this.HASH_KEY]: `user:${user.id}`, [this.SORT_KEY]: key, val }
+      Item: { [this.HASH_KEY]: `user:${user.id}`, [this.SORT_KEY]: key, val },
     };
 
-    this.docClient.put(params, function(err, data) {
+    this.docClient.put(params, function (err, data) {
       if (err) {
         console.log(err);
       } else {

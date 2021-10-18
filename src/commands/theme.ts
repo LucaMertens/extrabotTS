@@ -228,7 +228,7 @@ const theme: Command = {
     name: "theme",
     description: "Is used to configure and manage user themes.",
     usage:
-      "extratheme on | off | upload {*.mp3|*.wav|*.yeet}| delete [userID] {themePrefix} | list [userID]"
+      "extratheme on | off | upload {*.mp3|*.wav|*.yeet}| delete [userID] {themePrefix} | list [userID]",
   },
   config: { enabled: true, guildOnly: false },
 
@@ -238,7 +238,7 @@ const theme: Command = {
     } catch (error) {
       message.channel.send(`The following error occurred:\n\`\`\`${error.message}\`\`\``);
     }
-  }
+  },
 };
 
 module.exports = theme;
