@@ -3,11 +3,18 @@
     "es2020": true,
     "node": true
   },
-  "extends": ["google", "prettier"],
-  "globals": {
-    "Atomics": "readonly",
-    "SharedArrayBuffer": "readonly"
-  },
+  // Later rules take precedence over earlier ones.
+  "extends": [
+    "eslint:recommended", // Google code style is unopinionated about some rules, so we use this as a base.
+    "plugin:@typescript-eslint/recommended",
+    "google", // Google Code style
+    "plugin:prettier/recommended" // Use the recommended configuration defined by prettier.
+    // "prettier",
+  ],
+  // "globals": {
+  //   "Atomics": "readonly",
+  //   "SharedArrayBuffer": "readonly"
+  // },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 2020,
