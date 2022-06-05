@@ -29,7 +29,7 @@ export class DropboxHandler implements ThemeHandlerInterface {
   /* eslint-disable-next-line require-jsdoc */
   async listThemeNames(userId: Snowflake): Promise<string[]> {
     const path = DropboxHandler.getPath(userId);
-    const { entries } = await this.dropbox.filesListFolder({ path });
+    const { entries } = (await this.dropbox.filesListFolder({ path })).result;
     // TODO: Handling a non-existent user.
 
     // eslint-disable-next-line prefer-const
@@ -48,7 +48,7 @@ export class DropboxHandler implements ThemeHandlerInterface {
     const path = DropboxHandler.getPath(userId, themeName);
     // This will throw an error if the file doesn't exist.
     // TODO: Define Errors in interface.
-    const { link } = await this.dropbox.filesGetTemporaryLink({ path });
+    const { link } = (await this.dropbox.filesGetTemporaryLink({ path })).result;
     return link;
   }
 
@@ -61,7 +61,7 @@ export class DropboxHandler implements ThemeHandlerInterface {
     const themeName = pickRandom(names);
     const path = DropboxHandler.getPath(userId, themeName);
 
-    const { link } = await this.dropbox.filesGetTemporaryLink({ path });
+    const { link } = (await this.dropbox.filesGetTemporaryLink({ path })).result;
     return link;
   }
 

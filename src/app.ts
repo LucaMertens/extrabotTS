@@ -13,7 +13,7 @@ import { ObjectConfig } from "./config/ObjectConfig";
 export const themeHandler: ThemeHandlerInterface = new DropboxHandler();
 export const config: ConfigInterface = new ObjectConfig();
 export let commands: Collection<string, Command>;
-export const client: Client = new Client({ intents: [Intents.FLAGS.GUILD_MESSAGES] });
+export const client: Client = new Client(/* { intents: [Intents.FLAGS.GUILD_MESSAGES] } */);
 
 const init = async () => {
   commands = await getCommands();

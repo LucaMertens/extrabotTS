@@ -15,8 +15,10 @@ const yt: Command = {
       console.log(stream);
       const att = new MessageAttachment(stream, "test.mp3");
       message.channel.send(att);
-    } catch (error) {
-      message.channel.send("An error occured:\n```" + error.message + "```");
+    } catch (e) {
+      if (e instanceof Error) {
+        message.channel.send(`The following error occurred:\n\`\`\`${e.message}\`\`\``);
+      }
     }
   },
   help: {

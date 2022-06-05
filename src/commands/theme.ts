@@ -235,8 +235,10 @@ const theme: Command = {
   execute: async (message, args) => {
     try {
       await handleThemeCommand(message, args);
-    } catch (error) {
-      message.channel.send(`The following error occurred:\n\`\`\`${error.message}\`\`\``);
+    } catch (e) {
+      if (e instanceof Error) {
+        message.channel.send(`The following error occurred:\n\`\`\`${e.message}\`\`\``);
+      }
     }
   },
 };
